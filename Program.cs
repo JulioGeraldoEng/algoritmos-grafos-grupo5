@@ -13,16 +13,33 @@ namespace ProjetoGrafos
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("===== PROJETO GRAFOS - .NET 8 =====\n");
             bool sair = false;
             while (!sair)
             {
-                Console.WriteLine("Escolha uma opção:");
-                Console.WriteLine("1 - Mapa de Cidades (Dijkstra)");
-                Console.WriteLine("2 - Desafio de Programação Competitiva");
-                Console.WriteLine("3 - Testes BFS, DFS e Bellman-Ford");
-                Console.WriteLine("0 - Sair");
-                Console.Write("Opção: ");
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("                 MENU PRINCIPAL");
+                Console.ResetColor();
+
+                Console.WriteLine("────────────────────────────────────────────────────────");
+                Console.WriteLine("  Escolha uma das opções abaixo:");
+                Console.WriteLine("  1  -> Mapa de Cidades (Dijkstra)");
+                Console.WriteLine("  2  -> Desafio de Programação Competitiva");
+                Console.WriteLine("  3  -> Testes BFS, DFS e Bellman-Ford");
+                Console.WriteLine("────────────────────────────────────────────────────────");
+
+
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("  9  -> Limpar Console");
+                Console.ResetColor();
+
+                Console.Write(new string(' ', 20));
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("0  -> Sair");
+                Console.ResetColor();
+
+                Console.WriteLine("────────────────────────────────────────────────────────");
                 string? opcao = Console.ReadLine();
 
                 switch (opcao)
@@ -39,6 +56,9 @@ namespace ProjetoGrafos
                     case "0":
                         sair = true;
                         Console.WriteLine("Saindo...");
+                        break;
+                    case "9":
+                        Console.Clear();
                         break;
                     default:
                         Console.WriteLine("Opção inválida. Tente novamente.");
