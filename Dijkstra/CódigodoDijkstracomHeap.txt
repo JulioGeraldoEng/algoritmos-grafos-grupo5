@@ -1,0 +1,65 @@
+// Classe estática que implementa o algoritmo de Dijkstra usando HEAP MÍNIMO (fila de prioridade).
+// Complexidade: O((V + A) log V). Funciona apenas com pesos NÃO NEGATIVOS.
+public static class DijkstraHeap
+{
+    /// Executa o Dijkstra a partir do vértice 'fonte'.
+    /// Retorna: dist (menor distância de cada vértice) e pred (predecessor no caminho mínimo).
+    public static (int[] dist, int[] pred) Executar(GrafoListaAdjacencia grafo, int fonte)
+    {
+        int V = grafo.Vertices;
+
+        // dist: guarda a menor distância conhecida até cada vértice (inicia como infinito).
+        int[] dist = new int[V];
+        // pred: guarda o vértice anterior no caminho mínimo.
+        int[] pred = new int[V];
+        // processado: indica se a distância do vértice já é definitiva.
+        bool[] processado = new bool[V];
+
+        // Inicializa distâncias com um valor muito grande (infinito) e pred com -1.
+        for (int i = 0; i < V; i++)
+        {
+            dist[i] = int.MaxValue;
+            pred[i] = -1;
+        }
+        // Distância da fonte para ela mesma é 0.
+        dist[fonte] = 0;
+
+        // Cria uma fila de prioridade (heap mínimo) onde a prioridade é a distância.
+        // O .NET fornece PriorityQueue<TElement, TPriority> onde o menor TPriority sai primeiro.
+        PriorityQueue<int, int> pq = new PriorityQueue<int, int>();
+        // Insere o vértice fonte com prioridade 0.
+        pq.Enqueue(fonte, 0);
+
+        // Enquanto houver elementos na fila...
+        while (pq.Count > 0)
+        {
+            // Remove o vértice com a MENOR distância (topo do heap).
+            int u = pq.Dequeue();
+
+            // Se já processamos este vértice, ignoramos (evita entradas duplicadas).
+            if (processado[u]) continue;
+
+            // Marca como processado: agora a distância de u é definitiva.
+            processado[u] = true;
+
+            // Para cada vizinho 'v' de 'u' com peso 'peso'...
+            foreach (var (v, peso) in grafo.ObterVizinhos(u))
+            {
+                // Se 'v' não foi processado E passar por 'u' melhora a distância de 'v'...
+                if (!processado[v] && dist[u] + peso < dist[v])
+                {
+                    // Atualiza a distância de 'v' com o novo valor menor.
+                    dist[v] = dist[u] + peso;
+                    // Define 'u' como predecessor de 'v'.
+                    pred[v] = u;
+                    // Insere 'v' na fila com a nova prioridade (distância menor).
+                    // Entradas antigas com distâncias maiores serão ignoradas quando removidas.
+                    pq.Enqueue(v, dist[v]);
+                }
+            }
+        }
+
+        // Retorna as distâncias e predecessores calculados.
+        return (dist, pred);
+    }
+}

@@ -1,0 +1,50 @@
+/// Grafo representado por LISTA DE ADJACÊNCIA.
+/// Espaço: O(V + A). Verificação de aresta: O(grau(v)). Listagem: O(grau(v)).
+/// Ideal para grafos esparsos.
+
+public class GrafoListaAdjacencia
+{
+    // Array de listas: cada posição i guarda uma lista de tuplas (destino, peso)
+    private List<(int destino, int peso)>[] adjacencias;
+    public int Vertices { get; private set; }
+    public bool Direcionado { get; private set; }
+
+    public GrafoListaAdjacencia(int vertices, bool direcionado = false)
+    {
+        Vertices = vertices;
+        Direcionado = direcionado;
+        adjacencias = new List<(int, int)>[vertices];
+        for (int i = 0; i < vertices; i++)
+            adjacencias[i] = new List<(int, int)>();
+    }
+
+    // Adiciona uma aresta. Se não for direcionado, adiciona também no sentido inverso. 
+    public void AdicionarAresta(int origem, int destino, int peso = 1)
+    {
+        if (origem < 0 || origem >= Vertices || destino < 0 || destino >= Vertices)
+            throw new ArgumentOutOfRangeException("Vértice inválido.");
+        adjacencias[origem].Add((destino, peso));
+        if (!Direcionado)
+            adjacencias[destino].Add((origem, peso));
+    }
+
+    // Verifica se existe aresta (percorre a lista do vértice origem). 
+    public bool ExisteAresta(int origem, int destino)
+    {
+        foreach (var (dest, _) in adjacencias[origem])
+            if (dest == destino) return true;
+        return false;
+    }
+
+    // Retorna o peso de uma aresta específica. 
+    public int ObterPeso(int origem, int destino)
+    {
+        foreach (var (dest, peso) in adjacencias[origem])
+            if (dest == destino) return peso;
+        throw new ArgumentException("Aresta não encontrada.");
+    }
+
+    // Retorna todos os vizinhos de um vértice (iteração direta sobre sua lista). 
+    public IEnumerable<(int destino, int peso)> ObterVizinhos(int vertice)
+        => adjacencias[vertice];
+}
