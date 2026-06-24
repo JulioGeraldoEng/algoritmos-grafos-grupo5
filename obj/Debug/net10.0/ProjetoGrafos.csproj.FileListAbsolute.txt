@@ -12,3 +12,4 @@ E:\IFSP\5modulo\ANALISE E COMPLEXIDADE DE ALGORITMOS\ProjetoGrafos\obj\Debug\net
 E:\IFSP\5modulo\ANALISE E COMPLEXIDADE DE ALGORITMOS\ProjetoGrafos\obj\Debug\net10.0\ProjetoGrafos.pdb
 E:\IFSP\5modulo\ANALISE E COMPLEXIDADE DE ALGORITMOS\ProjetoGrafos\obj\Debug\net10.0\ProjetoGrafos.genruntimeconfig.cache
 E:\IFSP\5modulo\ANALISE E COMPLEXIDADE DE ALGORITMOS\ProjetoGrafos\obj\Debug\net10.0\ref\ProjetoGrafos.dll
+E:\IFSP\5modulo\ANALISE E COMPLEXIDADE DE ALGORITMOS\ProjetoGrafos\obj\Debug\net10.0\ProjetoGrafos.sourcelink.json

@@ -6,6 +6,8 @@ namespace ProjetoGrafos.MapaCidades
 {
     public static class MapaCidades
     {
+        private const int Destino = 3;
+
         public static void ConstruirEExecutar()
         {
             // Cria grafo com 10 vértices (0 a 9) e não direcionado.
@@ -62,7 +64,7 @@ namespace ProjetoGrafos.MapaCidades
             Console.WriteLine("\nExemplos de Rotas:");
             MostrarCaminho(9);
             MostrarCaminho(6);
-            MostrarCaminho(3);
+            MostrarCaminho(Destino);
         }
     }
 }
