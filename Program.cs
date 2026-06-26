@@ -22,6 +22,7 @@ namespace ProjetoGrafos
                 Console.WriteLine("2 - Desafio de Programação Competitiva");
                 Console.WriteLine("3 - Testes BFS, DFS e Bellman-Ford");
                 Console.WriteLine("4 - Testar Conectividade, Ciclos e Componentes");
+                Console.WriteLine("5 - Comparar Desempenho Dijkstra (Heap vs. Vetor)");
                 Console.WriteLine("0 - Sair");
                 Console.Write("Opção: ");
                 string? opcao = Console.ReadLine();
@@ -39,6 +40,9 @@ namespace ProjetoGrafos
                         break;
                     case "4":
                         TestarConectividadeCiclosComponentes();
+                        break;
+                    case "5": 
+                        TestarDesempenhoDijkstra(); 
                         break;
                     case "0":
                         sair = true;
@@ -228,6 +232,99 @@ namespace ProjetoGrafos
                 }
             }
             Console.WriteLine($"Número de componentes conexas no mapa: {compC}");
+        }
+
+        static void TestarDesempenhoDijkstra()
+        {
+            Console.WriteLine("\n=== COMPARAÇÃO DE DESEMPENHO: HEAP vs. VETOR ===");
+            Console.WriteLine("Gerando grafos conexos e medindo tempos (média de 5 execuções)...\n");
+
+            // Cenários maiores para tempos mais significativos
+            var cenarios = new (int V, int A)[]
+            {
+                (500, 5000),    // esparso
+                (1000, 10000),  // esparso
+                (2000, 40000),  // médio
+                (5000, 50000),  // esparso grande
+                (500, 50000)    // denso (A próximo de V²)
+            };
+
+            Console.WriteLine("| Vértices (V) | Arestas (A) | Heap (ms) | Vetor (ms) | Ganho do Heap |");
+            Console.WriteLine("|--------------|-------------|-----------|------------|---------------|");
+
+            foreach (var (V, A) in cenarios)
+            {
+                // Gera um grafo conexo
+                var grafo = GerarGrafoConexo(V, A);
+
+                // AQUECIMENTO: executa uma vez sem medir (para o JIT compilar e cachear)
+                DijkstraHeap.Executar(grafo, 0);
+                DijkstraVetor.Executar(grafo, 0);
+
+                // Medições repetidas
+                int repeticoes = 5;
+                double somaHeap = 0, somaVetor = 0;
+
+                for (int i = 0; i < repeticoes; i++)
+                {
+                    // Heap
+                    var swHeap = System.Diagnostics.Stopwatch.StartNew();
+                    DijkstraHeap.Executar(grafo, 0);
+                    swHeap.Stop();
+                    somaHeap += swHeap.Elapsed.TotalMilliseconds;
+
+                    // Vetor
+                    var swVetor = System.Diagnostics.Stopwatch.StartNew();
+                    DijkstraVetor.Executar(grafo, 0);
+                    swVetor.Stop();
+                    somaVetor += swVetor.Elapsed.TotalMilliseconds;
+                }
+
+                double mediaHeap = somaHeap / repeticoes;
+                double mediaVetor = somaVetor / repeticoes;
+                double ganho = (mediaVetor - mediaHeap) / mediaVetor * 100; // % mais rápido
+
+                Console.WriteLine($"| {V,12} | {A,11} | {mediaHeap,9:F2} | {mediaVetor,10:F2} | {ganho,13:F1}% |");
+            }
+
+            Console.WriteLine("\nObs: Média de 5 execuções. Ganho positivo = Heap é mais rápido.");
+        }
+
+        /// <summary>
+        /// Gera um grafo NÃO-direcionado e CONEXO com V vértices e A arestas.
+        /// Garante conectividade criando uma árvore geradora mínima (arestas sequenciais),
+        /// depois adiciona arestas extras aleatórias.
+        /// </summary>
+        static GrafoListaAdjacencia GerarGrafoConexo(int V, int A)
+        {
+            if (A < V - 1) A = V - 1; // garante arestas mínimas para conectividade
+            var rand = new Random();
+            var grafo = new GrafoListaAdjacencia(V, direcionado: false);
+
+            // 1. Cria uma árvore geradora (conexão sequencial) - garante conectividade
+            for (int i = 1; i < V; i++)
+            {
+                int peso = rand.Next(1, 101);
+                grafo.AdicionarAresta(i - 1, i, peso);
+            }
+
+            // 2. Adiciona arestas extras aleatórias (sem criar laços)
+            int arestasAtuais = V - 1;
+            int tentativas = 0;
+            while (arestasAtuais < A && tentativas < A * 10)
+            {
+                int u = rand.Next(V);
+                int v = rand.Next(V);
+                if (u != v && !grafo.ExisteAresta(u, v))
+                {
+                    int peso = rand.Next(1, 101);
+                    grafo.AdicionarAresta(u, v, peso);
+                    arestasAtuais++;
+                }
+                tentativas++;
+            }
+
+            return grafo;
         }
     }
 }
