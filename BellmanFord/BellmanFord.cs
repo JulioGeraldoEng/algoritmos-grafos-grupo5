@@ -8,6 +8,7 @@ namespace ProjetoGrafos.BellmanFord
     {
         public static (int[] dist, int[] pred, bool temCicloNegativo) Executar(GrafoListaAdjacencia grafo, int fonte)
         {
+            Console.Clear();
             int V = grafo.Vertices;
             var dist = new int[V];
             var pred = new int[V];

@@ -8,6 +8,7 @@ namespace ProjetoGrafos.Bfs
     {
         public static (int[] distancias, int[] predecessores) Executar(GrafoListaAdjacencia grafo, int fonte)
         {
+            Console.Clear();
             int V = grafo.Vertices;
             var dist = new int[V];
             var pred = new int[V];

@@ -7,6 +7,7 @@ namespace ProjetoGrafos.Dfs
     {
         public static (int[] d, int[] f, int[] pred) Executar(GrafoListaAdjacencia grafo)
         {
+            Console.Clear();
             int V = grafo.Vertices;
             var d = new int[V];
             var f = new int[V];

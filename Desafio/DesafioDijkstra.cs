@@ -10,6 +10,7 @@ namespace ProjetoGrafos.Desafio
 
         public static void Executar()
         {
+            Console.Clear();
             Console.WriteLine("\n=== DESAFIO BEECROWD 1148 – PAÍSES EM GUERRA ===");
 
             // Pergunta ao usuário qual modo de entrada deseja
@@ -25,8 +26,7 @@ namespace ProjetoGrafos.Desafio
                 Console.Write("Digite o caminho do arquivo (ou pressione Enter para usar 'entrada.txt'): ");
                 string? caminho = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(caminho))
-                    caminho = "entrada.txt";
-
+                    caminho = @"..\..\..\entrada.txt";
                 if (!File.Exists(caminho))
                 {
                     Console.WriteLine($"Arquivo '{caminho}' não encontrado.");
