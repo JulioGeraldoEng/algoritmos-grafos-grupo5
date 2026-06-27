@@ -128,18 +128,19 @@ namespace ProjetoGrafos.MapaCidades
             Console.WriteLine("    1600km            1450km");
             Console.WriteLine("       │                 │");
             Console.WriteLine("  [Rio de Janeiro]   [Brasília]────200km────[Goiânia]");
+            Console.WriteLine("       │       │         │                       │");
+            Console.WriteLine("       │       │       715km                  1100km");
+            Console.WriteLine("       │     430km       │                       │");
+            Console.WriteLine("      400km    │         │                       │");
+            Console.WriteLine("       │       └──────[Belo Horizonte]      [Curitiba]");
             Console.WriteLine("       │                 │                       │");
-            Console.WriteLine("       │                715km                  1100km");
-            Console.WriteLine("      430km              │                       │");
-            Console.WriteLine("       │            [Belo Horizonte]          [Curitiba]");
-            Console.WriteLine("       │                 │                       │");
-            Console.WriteLine("      580km──────────────┘                    730km");
+            Console.WriteLine("       │────580km────────┘                       │");
             Console.WriteLine("       │                                         │");
-            Console.WriteLine("  [São Paulo]────────400km───────────────────────┘");
-            Console.WriteLine("       │");
-            Console.WriteLine("     1130km");
-            Console.WriteLine("       │");
-            Console.WriteLine("  [Porto Alegre]");
+            Console.WriteLine("  [São Paulo]────────400km───────────────────────│");
+            Console.WriteLine("       │                                         │");
+            Console.WriteLine("     1130km                                      │");
+            Console.WriteLine("       │                                         │");
+            Console.WriteLine("  [Porto Alegre]────────730km────────────────────┘");
 
         }
     }
