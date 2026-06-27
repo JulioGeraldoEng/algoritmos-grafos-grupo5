@@ -28,6 +28,8 @@ namespace ProjetoGrafos
                 Console.WriteLine("  3  -> Testes BFS, DFS e Bellman-Ford");
                 Console.WriteLine("  4  -> Testar Conectividade, Ciclos e Componentes");
                 Console.WriteLine("  5  -> Comparar Desempenho Dijkstra (Heap vs. Vetor)");
+                Console.WriteLine("  6  -> Demostrar grafo por Matriz de Adjacência");
+                Console.WriteLine("  7  -> Demostrar grafo por GrafoListaAdjacencia");
                 Console.WriteLine("────────────────────────────────────────────────────────");
 
 
@@ -60,6 +62,12 @@ namespace ProjetoGrafos
                         break;
                     case "5": 
                         TestarDesempenhoDijkstra(); 
+                        break;
+                    case "6":
+                        GrafoMatrizAdjacencia.Executar(); 
+                        break;                    
+                    case "7":
+                        GrafoListaAdjacencia.Executar(); 
                         break;
                     case "0":
                         sair = true;

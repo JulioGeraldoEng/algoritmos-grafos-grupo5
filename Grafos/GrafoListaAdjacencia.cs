@@ -61,5 +61,170 @@ namespace ProjetoGrafos.Grafos
                 Console.WriteLine();
             }
         }
+
+        public static void Executar()
+        {
+            Console.Clear();
+            Console.WriteLine("==========================================");
+            Console.WriteLine(" REPRESENTAÇÃO - LISTA DE ADJACÊNCIA");
+            Console.WriteLine("==========================================\n");
+
+            string caminho = @"..\..\..\lista.txt";
+
+            if (!File.Exists(caminho))
+            {
+                Console.WriteLine("Arquivo lista.txt não encontrado.");
+                Console.ReadKey();
+                return;
+            }
+
+            string[] linhas = File.ReadAllLines(caminho);
+            GrafoListaAdjacencia grafo = new GrafoListaAdjacencia(linhas.Length);
+
+            foreach (string linha in linhas)
+            {
+                string[] partes = linha.Split(':');
+
+                if (partes.Length != 2)
+                {
+                    Console.WriteLine($"Linha inválida no arquivo: {linha}");
+                    Console.ReadKey();
+                    return;
+                }
+
+                if (!int.TryParse(partes[0].Trim(), out int origem) ||
+                    origem < 0 ||
+                    origem >= grafo.Vertices)
+                {
+                    Console.WriteLine($"Vértice de origem inválido na linha: {linha}");
+                    Console.ReadKey();
+                    return;
+                }
+
+                string[] vizinhos = partes[1]
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string vizinho in vizinhos)
+                {
+                    if (!int.TryParse(vizinho, out int destino) ||
+                        destino < 0 ||
+                        destino >= grafo.Vertices)
+                    {
+                        Console.WriteLine($"Vértice destino inválido na linha: {linha}");
+                        Console.ReadKey();
+                        return;
+                    }
+
+                    if (destino > origem)
+                    {
+                        grafo.AdicionarAresta(origem, destino);
+                    }
+                }
+            }
+
+            Console.WriteLine("Lista de Adjacência:\n");
+            grafo.Imprimir();
+
+            Console.WriteLine("\n=== Informações do Grafo ===");
+
+            int quantidadeVertices = grafo.Vertices;
+            int quantidadeArestas = 0;
+
+            for (int i = 0; i < grafo.Vertices; i++)
+            {
+                foreach (var _ in grafo.ObterVizinhos(i))
+                {
+                    quantidadeArestas++;
+                }
+            }
+
+            if (!grafo.Direcionado)
+            {
+                quantidadeArestas /= 2;
+            }
+
+            Console.WriteLine($"Número de vértices: {quantidadeVertices}");
+            Console.WriteLine($"Número de arestas : {quantidadeArestas}");
+
+            Console.WriteLine("\n=== Consulta de existência de aresta ===");
+
+            int origemConsulta;
+
+            while (true)
+            {
+                Console.Write($"Informe o vértice de origem (0 a {grafo.Vertices - 1}): ");
+
+                if (int.TryParse(Console.ReadLine(), out origemConsulta) &&
+                    origemConsulta >= 0 &&
+                    origemConsulta < grafo.Vertices)
+                {
+                    break;
+                }
+
+                Console.WriteLine("Vértice inválido! Tente novamente.\n");
+            }
+
+            int destinoConsulta;
+
+            while (true)
+            {
+                Console.Write($"Informe o vértice de destino (0 a {grafo.Vertices - 1}): ");
+
+                if (int.TryParse(Console.ReadLine(), out destinoConsulta) &&
+                    destinoConsulta >= 0 &&
+                    destinoConsulta < grafo.Vertices)
+                {
+                    break;
+                }
+
+                Console.WriteLine("Vértice inválido! Tente novamente.\n");
+            }
+
+            Console.WriteLine(
+                $"Existe aresta entre {origemConsulta} e {destinoConsulta}? " +
+                $"{(grafo.ExisteAresta(origemConsulta, destinoConsulta) ? "Sim" : "Não")}"
+            );
+
+            Console.WriteLine("\n=== Vizinhos de um vértice ===");
+
+            int verticeConsulta;
+
+            while (true)
+            {
+                Console.Write($"Informe o vértice para listar os vizinhos (0 a {grafo.Vertices - 1}): ");
+
+                if (int.TryParse(Console.ReadLine(), out verticeConsulta) &&
+                    verticeConsulta >= 0 &&
+                    verticeConsulta < grafo.Vertices)
+                {
+                    break;
+                }
+
+                Console.WriteLine("Vértice inválido! Tente novamente.\n");
+            }
+
+            var vizinhosConsulta = grafo.ObterVizinhos(verticeConsulta);
+
+            bool possuiVizinhos = false;
+
+            Console.Write($"Vizinhos do vértice {verticeConsulta}: ");
+
+            foreach (var (destino, peso) in vizinhosConsulta)
+            {
+                Console.Write($"({destino}, peso={peso}) ");
+                possuiVizinhos = true;
+            }
+
+            if (!possuiVizinhos)
+            {
+                Console.Write("Nenhum");
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
+        }
     }
 }
