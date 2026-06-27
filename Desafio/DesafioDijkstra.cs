@@ -57,6 +57,7 @@ namespace ProjetoGrafos.Desafio
 
             Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
             Console.ReadKey();
+            Console.Clear();
         }
 
         private static void ProcessarEntrada()

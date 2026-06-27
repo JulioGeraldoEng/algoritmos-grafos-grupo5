@@ -55,6 +55,10 @@ namespace ProjetoGrafos.MapaCidades
             var (dist, pred) = DijkstraHeap.Executar(grafo, origem);
 
             MostrarCaminho(origem, destino, dist, pred, cidades);
+
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         private static int LerCidade(string mensagem, int quantidadeCidades)

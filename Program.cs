@@ -30,6 +30,7 @@ namespace ProjetoGrafos
                 Console.WriteLine("  5  -> Comparar Desempenho Dijkstra (Heap vs. Vetor)");
                 Console.WriteLine("  6  -> Demostrar grafo por Matriz de Adjacência");
                 Console.WriteLine("  7  -> Demostrar grafo por GrafoListaAdjacencia");
+                Console.WriteLine("  8  -> Desafio de Programação Beecrowd");
                 Console.WriteLine("────────────────────────────────────────────────────────");
 
 
@@ -52,7 +53,7 @@ namespace ProjetoGrafos
                         MapaCidades.MapaCidades.ConstruirEExecutar();
                         break;
                     case "2":
-                        DesafioDijkstra.Executar();
+                        Desafio.DesafioProposto.Executar();
                         break;
                     case "3":
                         TestesAdicionais();
@@ -68,6 +69,9 @@ namespace ProjetoGrafos
                         break;                    
                     case "7":
                         GrafoListaAdjacencia.Executar(); 
+                        break;
+                    case "8":
+                        DesafioDijkstra.Executar();
                         break;
                     case "0":
                         sair = true;
@@ -106,6 +110,10 @@ namespace ProjetoGrafos
             var (distBF, predBF, ciclo) = BellmanFordAlgorithm.Executar(grafoTeste, 0);
             Console.WriteLine($"Bellman-Ford - Distâncias: [{string.Join(", ", distBF)}]");
             Console.WriteLine($"Ciclo negativo? {ciclo}");
+
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         static void TestarConectividadeCiclosComponentes()
@@ -260,6 +268,10 @@ namespace ProjetoGrafos
                 }
             }
             Console.WriteLine($"Número de componentes conexas no mapa: {compC}");
+
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         static void TestarDesempenhoDijkstra()
@@ -316,6 +328,10 @@ namespace ProjetoGrafos
             }
 
             Console.WriteLine("\nObs: Média de 5 execuções. Ganho positivo = Heap é mais rápido.");
+
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         /// <summary>
