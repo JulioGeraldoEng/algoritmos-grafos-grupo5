@@ -69,7 +69,6 @@ namespace ProjetoGrafos.Grafos
             Console.WriteLine(" REPRESENTAÇÃO - MATRIZ DE ADJACÊNCIA");
             Console.WriteLine("==========================================\n");
 
-            GrafoMatrizAdjacencia grafo = new GrafoMatrizAdjacencia(5);
 
             // Criação do grafo
             string caminho = @"..\..\..\matriz.txt";
@@ -82,6 +81,8 @@ namespace ProjetoGrafos.Grafos
             }
 
             string[] linhas = File.ReadAllLines(caminho);
+
+            GrafoMatrizAdjacencia grafo = new GrafoMatrizAdjacencia(linhas.Length);
 
             for (int i = 0; i < linhas.Length; i++)
             {

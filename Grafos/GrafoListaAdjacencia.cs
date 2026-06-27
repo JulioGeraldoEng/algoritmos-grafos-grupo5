@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ProjetoGrafos.Grafos
 {
@@ -19,6 +20,7 @@ namespace ProjetoGrafos.Grafos
             Vertices = vertices;
             Direcionado = direcionado;
             adjacencias = new List<(int, int)>[vertices];
+            
             for (int i = 0; i < vertices; i++)
                 adjacencias[i] = new List<(int, int)>();
         }
@@ -27,7 +29,9 @@ namespace ProjetoGrafos.Grafos
         {
             if (origem < 0 || origem >= Vertices || destino < 0 || destino >= Vertices)
                 throw new ArgumentOutOfRangeException("Vértice inválido.");
+            
             adjacencias[origem].Add((destino, peso));
+
             if (!Direcionado)
                 adjacencias[destino].Add((origem, peso));
         }
@@ -56,8 +60,10 @@ namespace ProjetoGrafos.Grafos
             for (int i = 0; i < Vertices; i++)
             {
                 Console.Write($"{i}: ");
+
                 foreach (var (dest, peso) in adjacencias[i])
                     Console.Write($"->({dest},{peso}) ");
+
                 Console.WriteLine();
             }
         }
@@ -79,6 +85,14 @@ namespace ProjetoGrafos.Grafos
             }
 
             string[] linhas = File.ReadAllLines(caminho);
+
+            if (linhas.Length == 0)
+            {
+                Console.WriteLine("O arquivo lista.txt está vazio.");
+                Console.ReadKey();
+                return;
+            }
+
             GrafoListaAdjacencia grafo = new GrafoListaAdjacencia(linhas.Length);
 
             foreach (string linha in linhas)
@@ -115,7 +129,7 @@ namespace ProjetoGrafos.Grafos
                         return;
                     }
 
-                    if (destino > origem)
+                    if (!grafo.ExisteAresta(origem, destino))
                     {
                         grafo.AdicionarAresta(origem, destino);
                     }
@@ -127,23 +141,18 @@ namespace ProjetoGrafos.Grafos
 
             Console.WriteLine("\n=== Informações do Grafo ===");
 
-            int quantidadeVertices = grafo.Vertices;
             int quantidadeArestas = 0;
 
             for (int i = 0; i < grafo.Vertices; i++)
             {
                 foreach (var _ in grafo.ObterVizinhos(i))
-                {
                     quantidadeArestas++;
-                }
             }
 
             if (!grafo.Direcionado)
-            {
                 quantidadeArestas /= 2;
-            }
 
-            Console.WriteLine($"Número de vértices: {quantidadeVertices}");
+            Console.WriteLine($"Número de vértices: {grafo.Vertices}");
             Console.WriteLine($"Número de arestas : {quantidadeArestas}");
 
             Console.WriteLine("\n=== Consulta de existência de aresta ===");
@@ -157,9 +166,7 @@ namespace ProjetoGrafos.Grafos
                 if (int.TryParse(Console.ReadLine(), out origemConsulta) &&
                     origemConsulta >= 0 &&
                     origemConsulta < grafo.Vertices)
-                {
                     break;
-                }
 
                 Console.WriteLine("Vértice inválido! Tente novamente.\n");
             }
@@ -173,9 +180,7 @@ namespace ProjetoGrafos.Grafos
                 if (int.TryParse(Console.ReadLine(), out destinoConsulta) &&
                     destinoConsulta >= 0 &&
                     destinoConsulta < grafo.Vertices)
-                {
                     break;
-                }
 
                 Console.WriteLine("Vértice inválido! Tente novamente.\n");
             }
@@ -196,29 +201,23 @@ namespace ProjetoGrafos.Grafos
                 if (int.TryParse(Console.ReadLine(), out verticeConsulta) &&
                     verticeConsulta >= 0 &&
                     verticeConsulta < grafo.Vertices)
-                {
                     break;
-                }
 
                 Console.WriteLine("Vértice inválido! Tente novamente.\n");
             }
-
-            var vizinhosConsulta = grafo.ObterVizinhos(verticeConsulta);
 
             bool possuiVizinhos = false;
 
             Console.Write($"Vizinhos do vértice {verticeConsulta}: ");
 
-            foreach (var (destino, peso) in vizinhosConsulta)
+            foreach (var (destino, peso) in grafo.ObterVizinhos(verticeConsulta))
             {
                 Console.Write($"({destino}, peso={peso}) ");
                 possuiVizinhos = true;
             }
 
             if (!possuiVizinhos)
-            {
                 Console.Write("Nenhum");
-            }
 
             Console.WriteLine();
 
