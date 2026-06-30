@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
-using ProjetoGrafos.Grafos;
+using ProjetoGrafosGrupo5.Grafos;
 
-namespace ProjetoGrafos.Bfs
+namespace ProjetoGrafosGrupo5.Bfs
 {
     public static class BFS
     {
-        public static (int[] distancias, int[] predecessores) Executar(GrafoListaAdjacencia grafo, int fonte)
+        /// <summary>
+        /// Executa a Busca em Largura a partir de um vértice origem.
+        /// Retorna as distâncias e predecessores.
+        /// </summary>
+        public static (int[] distancias, int[] predecessores) Executar(GrafoListaAdjacencia grafo, int origem)
         {
             Console.Clear();
             int V = grafo.Vertices;
-            var dist = new int[V];
-            var pred = new int[V];
-            var visitado = new bool[V];
+            int[] dist = new int[V];
+            int[] pred = new int[V];
+            bool[] visitado = new bool[V];
 
             for (int i = 0; i < V; i++)
             {
@@ -20,15 +24,15 @@ namespace ProjetoGrafos.Bfs
                 pred[i] = -1;
             }
 
-            var fila = new Queue<int>();
-            dist[fonte] = 0;
-            visitado[fonte] = true;
-            fila.Enqueue(fonte);
+            Queue<int> fila = new Queue<int>();
+            dist[origem] = 0;
+            visitado[origem] = true;
+            fila.Enqueue(origem);
 
             while (fila.Count > 0)
             {
-                int u = fila.Dequeue();
-                foreach (var (v, _) in grafo.ObterVizinhos(u))
+                int u = fila.Dequeue();   // cada vértice sai uma vez → O(V)
+                foreach (var (v, _) in grafo.ObterVizinhos(u)) // total de iterações = O(A)
                 {
                     if (!visitado[v])
                     {
@@ -39,6 +43,7 @@ namespace ProjetoGrafos.Bfs
                     }
                 }
             }
+
             return (dist, pred);
         }
     }

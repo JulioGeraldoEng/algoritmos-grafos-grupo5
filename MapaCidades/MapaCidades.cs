@@ -1,31 +1,19 @@
 using System;
-using ProjetoGrafos.Grafos;
-using ProjetoGrafos.Dijkstra;
-using System.Collections.Generic;
+using ProjetoGrafosGrupo5.Grafos;
+using ProjetoGrafosGrupo5.Dijkstra;
 
-namespace ProjetoGrafos.MapaCidades
+namespace ProjetoGrafosGrupo5.MapaCidades
 {
     public static class MapaCidades
     {
         public static void ConstruirEExecutar()
         {
-            Console.Clear();
-            string[] cidades =
-            {
-                "São Paulo",
-                "Rio de Janeiro",
-                "Belo Horizonte",
-                "Brasília",
-                "Goiânia",
-                "Curitiba",
-                "Porto Alegre",
-                "Salvador",
-                "Aracaju",
-                "Fortaleza"
-            };
+            Console.WriteLine("\n=== MAPA DE CIDADES BRASILEIRAS (Dijkstra) ===");
+            Console.WriteLine("Grafo com 10 cidades e 15 rodovias.\n");
 
             var grafo = new GrafoListaAdjacencia(10, direcionado: false);
 
+            // Adiciona arestas
             grafo.AdicionarAresta(0, 1, 400);
             grafo.AdicionarAresta(0, 2, 580);
             grafo.AdicionarAresta(0, 5, 400);
@@ -41,107 +29,26 @@ namespace ProjetoGrafos.MapaCidades
             grafo.AdicionarAresta(7, 9, 1200);
             grafo.AdicionarAresta(8, 9, 750);
 
-            MostrarMapaGrafo();
+            int origem = 0;
 
-            Console.WriteLine("\n=== CIDADES DISPONÍVEIS ===");
-            for (int i = 0; i < cidades.Length; i++)
-            {
-                Console.WriteLine($"{i} - {cidades[i]}");
-            }
+            Console.WriteLine("Cidades (vértices):");
+            Console.WriteLine("  0 - São Paulo (SP)");
+            Console.WriteLine("  1 - Rio de Janeiro (RJ)");
+            Console.WriteLine("  2 - Belo Horizonte (MG)");
+            Console.WriteLine("  3 - Brasília (DF)");
+            Console.WriteLine("  4 - Goiânia (GO)");
+            Console.WriteLine("  5 - Curitiba (PR)");
+            Console.WriteLine("  6 - Porto Alegre (RS)");
+            Console.WriteLine("  7 - Salvador (BA)");
+            Console.WriteLine("  8 - Aracaju (SE)");
+            Console.WriteLine("  9 - Fortaleza (CE)");
+            Console.WriteLine($"\nCalculando distâncias mínimas a partir de São Paulo (vértice {origem})...\n");
 
-            int origem = LerCidade("\nDigite o número da cidade de partida: ", cidades.Length);
-            int destino = LerCidade("Digite o número da cidade de destino: ", cidades.Length);
+            var resultado = AlgoritmoDijkstra.Executar(grafo, origem);
+            int[] distancias = resultado.distancias;
+            int[] predecessores = resultado.predecessores;
 
-            var (dist, pred) = DijkstraHeap.Executar(grafo, origem);
-
-            MostrarCaminho(origem, destino, dist, pred, cidades);
-
-            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
-            Console.ReadKey();
-            Console.Clear();
-        }
-
-        private static int LerCidade(string mensagem, int quantidadeCidades)
-        {
-            int cidade;
-
-            while (true)
-            {
-                Console.Write(mensagem);
-                bool valido = int.TryParse(Console.ReadLine(), out cidade);
-
-                if (valido && cidade >= 0 && cidade < quantidadeCidades)
-                    return cidade;
-
-                Console.WriteLine("Cidade inválida. Digite um número da lista.");
-            }
-        }
-
-        private static void MostrarCaminho(
-            int origem,
-            int destino,
-            int[] dist,
-            int[] pred,
-            string[] cidades)
-        {
-            if (dist[destino] == int.MaxValue)
-            {
-                Console.WriteLine($"\nNão há caminho entre {cidades[origem]} e {cidades[destino]}.");
-                return;
-            }
-
-            var caminho = new List<int>();
-            int atual = destino;
-
-            while (atual != -1)
-            {
-                caminho.Add(atual);
-                atual = pred[atual];
-            }
-
-            caminho.Reverse();
-
-            Console.WriteLine("\n=== MENOR CAMINHO ENCONTRADO ===");
-            Console.WriteLine($"Origem: {cidades[origem]}");
-            Console.WriteLine($"Destino: {cidades[destino]}");
-
-            Console.WriteLine("\nRota:");
-            Console.WriteLine(string.Join(" -> ", caminho.ConvertAll(i => cidades[i])));
-
-            Console.WriteLine($"\nDistância total: {dist[destino]} km");
-        }
-
-        private static void MostrarMapaGrafo()
-        {
-            Console.WriteLine("\n╔══════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║              MAPA DO GRAFO - CIDADES BRASILEIRAS             ║");
-            Console.WriteLine("╚══════════════════════════════════════════════════════════════╝\n");
-
-            Console.WriteLine("  [Fortaleza]───────750km───────[Aracaju]");
-            Console.WriteLine("       │                             │");
-            Console.WriteLine("     1200km                       320km");
-            Console.WriteLine("       │                             │");
-            Console.WriteLine("       └─────────────┌        ┐──────┘");
-            Console.WriteLine("       ┌─────────────|Salvador|       ");
-            Console.WriteLine("       |             └        ┘       ");
-            Console.WriteLine("       │                 │");
-            Console.WriteLine("    1600km            1450km");
-            Console.WriteLine("       │                 │");
-            Console.WriteLine("  [Rio de Janeiro]   [Brasília]────200km────[Goiânia]");
-            Console.WriteLine("       │       │         │                       │");
-            Console.WriteLine("       │       │       715km                  1100km");
-            Console.WriteLine("       │     430km       │                       │");
-            Console.WriteLine("      400km    │         │                       │");
-            Console.WriteLine("       │       └──────[Belo Horizonte]      [Curitiba]");
-            Console.WriteLine("       │                 │                       │");
-            Console.WriteLine("       │────580km────────┘                       │");
-            Console.WriteLine("       │                                         │");
-            Console.WriteLine("  [São Paulo]────────400km───────────────────────│");
-            Console.WriteLine("       │                                         │");
-            Console.WriteLine("     1130km                                      │");
-            Console.WriteLine("       │                                         │");
-            Console.WriteLine("  [Porto Alegre]────────730km────────────────────┘");
-
+            AnalisadorDijkstra.Analisar(grafo, origem, distancias, predecessores);
         }
     }
 }

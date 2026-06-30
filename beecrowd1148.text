@@ -1,0 +1,185 @@
+using System;
+using System.Collections.Generic;
+
+class URI
+{
+    const int INF = 1000000000;
+
+    static int N;
+    static List<List<int>> adj, peso, adjT, pesoT;
+    static bool[] visitado;
+    static Stack<int> pilha;
+    static int[] comp;
+    static int idComp;
+
+    static void Dfs1(int u)
+    {
+        visitado[u] = true;
+        for (int i = 0; i < adj[u].Count; i++)
+        {
+            int v = adj[u][i];
+            if (!visitado[v]) Dfs1(v);
+        }
+        pilha.Push(u);
+    }
+
+    static void Dfs2(int u, int id)
+    {
+        comp[u] = id;
+        for (int i = 0; i < adjT[u].Count; i++)
+        {
+            int v = adjT[u][i];
+            if (comp[v] == -1) Dfs2(v, id);
+        }
+    }
+
+    static int DijkstraVetor(int origem, int destino, List<List<int>> condAdj, List<List<int>> condPeso)
+    {
+        int C = condAdj.Count;
+        int[] dist = new int[C];
+        bool[] processado = new bool[C];
+        for (int i = 0; i < C; i++) dist[i] = INF;
+        dist[origem] = 0;
+
+        for (int count = 0; count < C; count++)
+        {
+            int u = -1;
+            int menor = INF;
+            for (int i = 0; i < C; i++)
+                if (!processado[i] && dist[i] < menor)
+                {
+                    menor = dist[i];
+                    u = i;
+                }
+            if (u == -1 || u == destino) break;
+            processado[u] = true;
+
+            for (int i = 0; i < condAdj[u].Count; i++)
+            {
+                int v = condAdj[u][i];
+                int p = condPeso[u][i];
+                if (!processado[v] && dist[u] + p < dist[v])
+                    dist[v] = dist[u] + p;
+            }
+        }
+        return dist[destino];
+    }
+
+    static void Main()
+    {
+        while (true)
+        {
+            string[] linha = Console.ReadLine().Split();
+            if (linha.Length < 2) break;
+            N = int.Parse(linha[0]);
+            int E = int.Parse(linha[1]);
+            if (N == 0 && E == 0) break;
+
+            adj = new List<List<int>>();
+            peso = new List<List<int>>();
+            adjT = new List<List<int>>();
+            pesoT = new List<List<int>>();
+
+            for (int i = 0; i < N; i++)
+            {
+                adj.Add(new List<int>());
+                peso.Add(new List<int>());
+                adjT.Add(new List<int>());
+                pesoT.Add(new List<int>());
+            }
+
+            for (int i = 0; i < E; i++)
+            {
+                string[] aresta = Console.ReadLine().Split();
+                int X = int.Parse(aresta[0]) - 1;
+                int Y = int.Parse(aresta[1]) - 1;
+                int H = int.Parse(aresta[2]);
+                adj[X].Add(Y);
+                peso[X].Add(H);
+                adjT[Y].Add(X);
+                pesoT[Y].Add(H);
+            }
+
+            // Kosaraju - primeira DFS
+            visitado = new bool[N];
+            pilha = new Stack<int>();
+            for (int i = 0; i < N; i++)
+                if (!visitado[i]) Dfs1(i);
+
+            // Kosaraju - segunda DFS
+            comp = new int[N];
+            for (int i = 0; i < N; i++) comp[i] = -1;
+            idComp = 0;
+            while (pilha.Count > 0)
+            {
+                int u = pilha.Pop();
+                if (comp[u] == -1)
+                {
+                    Dfs2(u, idComp);
+                    idComp++;
+                }
+            }
+
+            // Condensa grafo - menor peso entre componentes
+            int[,] menorPeso = new int[idComp, idComp];
+            for (int i = 0; i < idComp; i++)
+                for (int j = 0; j < idComp; j++)
+                    menorPeso[i, j] = INF;
+
+            for (int u = 0; u < N; u++)
+            {
+                int cu = comp[u];
+                for (int i = 0; i < adj[u].Count; i++)
+                {
+                    int v = adj[u][i];
+                    int cv = comp[v];
+                    int p = peso[u][i];
+                    if (cu != cv && p < menorPeso[cu, cv])
+                        menorPeso[cu, cv] = p;
+                }
+            }
+
+            // Grafo condensado
+            List<List<int>> condAdj = new List<List<int>>();
+            List<List<int>> condPeso = new List<List<int>>();
+            for (int i = 0; i < idComp; i++)
+            {
+                condAdj.Add(new List<int>());
+                condPeso.Add(new List<int>());
+            }
+
+            for (int i = 0; i < idComp; i++)
+                for (int j = 0; j < idComp; j++)
+                    if (menorPeso[i, j] != INF)
+                    {
+                        condAdj[i].Add(j);
+                        condPeso[i].Add(menorPeso[i, j]);
+                    }
+
+            // Consultas
+            int K = int.Parse(Console.ReadLine());
+            for (int q = 0; q < K; q++)
+            {
+                string[] cons = Console.ReadLine().Split();
+                int O = int.Parse(cons[0]) - 1;
+                int D = int.Parse(cons[1]) - 1;
+                int co = comp[O];
+                int cd = comp[D];
+
+                if (co == cd)
+                {
+                    Console.WriteLine("0");
+                }
+                else
+                {
+                    int ans = DijkstraVetor(co, cd, condAdj, condPeso);
+                    if (ans >= INF)
+                        Console.WriteLine("Nao e possivel entregar a carta");
+                    else
+                        Console.WriteLine(ans);
+                }
+            }
+            Console.WriteLine();
+        }
+    }
+}

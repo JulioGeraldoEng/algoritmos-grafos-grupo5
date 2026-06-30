@@ -1,14 +1,8 @@
 using System;
 using System.IO;
 
-namespace ProjetoGrafos.Grafos
+namespace ProjetoGrafosGrupo5.Grafos
 {
-    
-    /// Grafo representado por MATRIZ DE ADJACÊNCIA.
-    /// Complexidade de espaço: O(V²).
-    /// Consulta de aresta: O(1). Listagem de vizinhos: O(V).
-    /// Ideal para grafos densos.
-    /// 
     public class GrafoMatrizAdjacencia
     {
         private int[,] matriz;
@@ -52,7 +46,7 @@ namespace ProjetoGrafos.Grafos
             return vizinhos;
         }
 
-        public void Imprimir()
+        public void ImprimirMatriz()
         {
             for (int i = 0; i < Vertices; i++)
             {
@@ -62,144 +56,40 @@ namespace ProjetoGrafos.Grafos
             }
         }
 
-        public static void Executar()
+        public static GrafoMatrizAdjacencia LerDoArquivo(string caminho)
         {
-            Console.Clear();
-            Console.WriteLine("==========================================");
-            Console.WriteLine(" REPRESENTAÇÃO - MATRIZ DE ADJACÊNCIA");
-            Console.WriteLine("==========================================\n");
-
-
-            // Criação do grafo
-            string caminho = @"..\..\..\matriz.txt";
-
             if (!File.Exists(caminho))
-            {
-                Console.WriteLine("Arquivo matriz.txt não encontrado.");
-                Console.ReadKey();
-                return;
-            }
+                throw new FileNotFoundException($"Arquivo não encontrado: {caminho}");
 
             string[] linhas = File.ReadAllLines(caminho);
+            if (linhas.Length < 2)
+                throw new InvalidDataException("Arquivo vazio ou formato inválido.");
 
-            GrafoMatrizAdjacencia grafo = new GrafoMatrizAdjacencia(linhas.Length);
+            string[] primeira = linhas[0].Split();
+            if (primeira.Length < 2)
+                throw new InvalidDataException("Primeira linha deve conter: V Direcionado (0 ou 1)");
 
-            for (int i = 0; i < linhas.Length; i++)
+            int V = int.Parse(primeira[0]);
+            bool direcionado = int.Parse(primeira[1]) == 1;
+
+            var grafo = new GrafoMatrizAdjacencia(V, direcionado);
+
+            for (int i = 1; i < linhas.Length; i++)
             {
-                string[] valores = linhas[i]
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string linha = linhas[i].Trim();
+                if (string.IsNullOrEmpty(linha)) continue;
+                string[] partes = linha.Split();
+                if (partes.Length < 3)
+                    throw new InvalidDataException($"Linha {i+1} inválida: esperado 'origem destino peso'");
 
-                for (int j = 0; j < valores.Length; j++)
-                {
-                    int peso = int.Parse(valores[j]);
+                int origem = int.Parse(partes[0]);
+                int destino = int.Parse(partes[1]);
+                int peso = int.Parse(partes[2]);
 
-                    // Evita adicionar a mesma aresta duas vezes
-                    if (peso != 0 && j > i)
-                    {
-                        grafo.AdicionarAresta(i, j, peso);
-                    }
-                }
+                grafo.AdicionarAresta(origem, destino, peso);
             }
 
-            Console.WriteLine("Matriz de Adjacência:\n");
-            grafo.Imprimir();
-
-            Console.WriteLine("\n=== Informações do Grafo ===");
-
-            int quantidadeVertices = grafo.Vertices;
-            int quantidadeArestas = 0;
-
-            for (int i = 0; i < grafo.Vertices; i++)
-            {
-                quantidadeArestas += grafo.ObterVizinhos(i).Length;
-            }
-
-            if (!grafo.Direcionado)
-            {
-                quantidadeArestas /= 2;
-            }
-
-            Console.WriteLine($"Número de vértices: {quantidadeVertices}");
-            Console.WriteLine($"Número de arestas : {quantidadeArestas}");
-
-            Console.WriteLine("\n=== Consulta de existência de aresta ===");
-
-            int origemConsulta;
-
-            while (true)
-            {
-                Console.Write($"Informe o vértice de origem (0 a {grafo.Vertices - 1}): ");
-
-                if (int.TryParse(Console.ReadLine(), out origemConsulta) &&
-                    origemConsulta >= 0 &&
-                    origemConsulta < grafo.Vertices)
-                {
-                    break;
-                }
-
-                Console.WriteLine("Vértice inválido! Tente novamente.\n");
-            }
-
-            int destinoConsulta;
-
-            while (true)
-            {
-                Console.Write($"Informe o vértice de destino (0 a {grafo.Vertices - 1}): ");
-
-                if (int.TryParse(Console.ReadLine(), out destinoConsulta) &&
-                    destinoConsulta >= 0 &&
-                    destinoConsulta < grafo.Vertices)
-                {
-                    break;
-                }
-
-                Console.WriteLine("Vértice inválido! Tente novamente.\n");
-            }
-
-            Console.WriteLine(
-                $"Existe aresta entre {origemConsulta} e {destinoConsulta}? " +
-                $"{(grafo.ExisteAresta(origemConsulta, destinoConsulta) ? "Sim" : "Não")}"
-            );
-
-            Console.WriteLine("\n=== Vizinhos de um vértice ===");
-
-            int verticeConsulta;
-
-            while (true)
-            {
-                Console.Write($"Informe o vértice para listar os vizinhos (0 a {grafo.Vertices - 1}): ");
-
-                if (int.TryParse(Console.ReadLine(), out verticeConsulta) &&
-                    verticeConsulta >= 0 &&
-                    verticeConsulta < grafo.Vertices)
-                {
-                    break;
-                }
-
-                Console.WriteLine("Vértice inválido! Tente novamente.\n");
-            }
-
-            int[] vizinhos = grafo.ObterVizinhos(verticeConsulta);
-
-            if (vizinhos.Length == 0)
-            {
-                Console.WriteLine($"O vértice {verticeConsulta} não possui vizinhos.");
-            }
-            else
-            {
-                Console.Write($"Vizinhos do vértice {verticeConsulta}: ");
-
-                foreach (int vizinho in vizinhos)
-                {
-                    Console.Write(vizinho + " ");
-                }
-
-                Console.WriteLine();
-            }
-
-            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
-            Console.ReadKey();
-            Console.Clear();
+            return grafo;
         }
     }
 }

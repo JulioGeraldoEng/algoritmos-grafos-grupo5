@@ -1,84 +1,59 @@
 ﻿using System;
-using ProjetoGrafos.MapaCidades;
-using ProjetoGrafos.Desafio;
-using ProjetoGrafos.Grafos;
-using ProjetoGrafos.Dijkstra;
-using ProjetoGrafos.Bfs;
-using ProjetoGrafos.Dfs;
-using ProjetoGrafos.BellmanFord;
+using ProjetoGrafosGrupo5.Grafos;
+using ProjetoGrafosGrupo5.Bfs;
+using ProjetoGrafosGrupo5.Dfs;
+using ProjetoGrafosGrupo5.Dijkstra;
+using ProjetoGrafosGrupo5.MapaCidades;
+using ProjetoGrafosGrupo5.Comparacao;
 
-namespace ProjetoGrafos
+namespace ProjetoGrafosGrupo5
 {
     class Program
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("===== PROJETO GRAFOS - .NET 8 =====\n");
             bool sair = false;
             while (!sair)
             {
-                Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("                 MENU PRINCIPAL");
-                Console.ResetColor();
-
-                Console.WriteLine("────────────────────────────────────────────────────────");
-                Console.WriteLine("  Escolha uma das opções abaixo:");
-                Console.WriteLine("  1  -> Mapa de Cidades (Dijkstra)");
-                Console.WriteLine("  2  -> Desafio de Programação Competitiva");
-                Console.WriteLine("  3  -> Testes BFS, DFS e Bellman-Ford");
-                Console.WriteLine("  4  -> Testar Conectividade, Ciclos e Componentes");
-                Console.WriteLine("  5  -> Comparar Desempenho Dijkstra (Heap vs. Vetor)");
-                Console.WriteLine("  6  -> Demostrar grafo por Matriz de Adjacência");
-                Console.WriteLine("  7  -> Demostrar grafo por GrafoListaAdjacencia");
-                Console.WriteLine("  8  -> Desafio de Programação Beecrowd");
-                Console.WriteLine("────────────────────────────────────────────────────────");
-
-
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("  9  -> Limpar Console");
-                Console.ResetColor();
-
-                Console.Write(new string(' ', 20));
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("0  -> Sair");
-                Console.ResetColor();
-
-                Console.WriteLine("────────────────────────────────────────────────────────");
+                Console.WriteLine("Escolha uma opção:");
+                Console.WriteLine("1 - Matriz de Adjacência");
+                Console.WriteLine("2 - Lista de Adjacência");
+                Console.WriteLine("3 - Busca em Largura (BFS)");
+                Console.WriteLine("4 - Busca em Profundidade (DFS)");
+                Console.WriteLine("5 - Dijkstra (caminho mínimo)");
+                Console.WriteLine("6 - Mapa de Cidades (Dijkstra)");   
+                Console.WriteLine("7 - Comparar desempenho (Heap vs Vetor)");
+                Console.WriteLine("0 - Sair");
+                Console.Write("Opção: ");
                 string? opcao = Console.ReadLine();
 
                 switch (opcao)
                 {
                     case "1":
-                        MapaCidades.MapaCidades.ConstruirEExecutar();
+                        ExecutarMatriz();
                         break;
                     case "2":
-                        Desafio.DesafioProposto.Executar();
+                        ExecutarLista();
                         break;
                     case "3":
-                        TestesAdicionais();
+                        ExecutarBFS();
                         break;
                     case "4":
-                        TestarConectividadeCiclosComponentes();
+                        ExecutarDFS();
                         break;
-                    case "5": 
-                        TestarDesempenhoDijkstra(); 
+                    case "5":
+                        ExecutarDijkstra();
                         break;
                     case "6":
-                        GrafoMatrizAdjacencia.Executar(); 
-                        break;                    
-                    case "7":
-                        GrafoListaAdjacencia.Executar(); 
+                        ProjetoGrafosGrupo5.MapaCidades.MapaCidades.ConstruirEExecutar();
                         break;
-                    case "8":
-                        DesafioDijkstra.Executar();
+                    case "7":
+                        DesempenhoDijkstra.Executar();
                         break;
                     case "0":
                         sair = true;
                         Console.WriteLine("Saindo...");
-                        break;
-                    case "9":
-                        Console.Clear();
                         break;
                     default:
                         Console.WriteLine("Opção inválida. Tente novamente.");
@@ -88,287 +63,165 @@ namespace ProjetoGrafos
             }
         }
 
-        static void TestesAdicionais()
+        // ============================================================
+        // Função para escolher o arquivo (lista fixa com 12 arquivos)
+        // ============================================================
+       static string EscolherArquivo()
         {
-            Console.WriteLine("=== TESTES BFS, DFS E BELLMAN-FORD ===");
-            var grafoTeste = new GrafoListaAdjacencia(6, direcionado: false);
-            grafoTeste.AdicionarAresta(0, 1, 1);
-            grafoTeste.AdicionarAresta(0, 2, 1);
-            grafoTeste.AdicionarAresta(1, 3, 1);
-            grafoTeste.AdicionarAresta(2, 4, 1);
-            grafoTeste.AdicionarAresta(3, 5, 1);
-            grafoTeste.AdicionarAresta(4, 5, 1);
+            Console.WriteLine("\nArquivos disponíveis na pasta 'Grafos/':");
+            Console.WriteLine("  1  - 1_grafo_denso.txt");
+            Console.WriteLine("  2  - 2_grafo_esparso.txt");
+            Console.WriteLine("  3  - 3_grafo_direcionado.txt");
+            Console.WriteLine("  4  - 4_grafo_nao_direcionado.txt");
+            Console.WriteLine("  5  - 5_grafo_com_ciclos.txt");
+            Console.WriteLine("  6  - 6_grafo_sem_ciclos.txt");
+            Console.WriteLine("  7  - 7_grafo_pesos_negativos.txt");
+            Console.WriteLine("  8  - 8_grafo_para_dijkstra.txt");
+            Console.WriteLine("  9  - 9_grafo_desconexo.txt");
+            Console.WriteLine("  10 - 10_grafo_para_bfs_dfs.txt");
+            Console.WriteLine("  11 - 11_grafo_grande_denso.txt");
+            Console.WriteLine("  12 - 12_grafo_direcionado_com_ciclo.txt");
+            Console.WriteLine("  13 - teste1_entrada.txt");
+            Console.WriteLine("  14 - teste2_entrada.txt");
+            Console.WriteLine("  15 - teste3_entrada.txt");
+            Console.WriteLine("  16 - Outro (digitar caminho)");
+            Console.Write("Escolha o número (1-16): ");
+            string? escolha = Console.ReadLine();
 
-            var (distBFS, predBFS) = BFS.Executar(grafoTeste, 0);
-            Console.WriteLine($"BFS - Distâncias de 0: [{string.Join(", ", distBFS)}]");
-
-            var (d, f, predDFS) = DFS.Executar(grafoTeste);
-            Console.WriteLine($"DFS - Descoberta (d): [{string.Join(", ", d)}]");
-            Console.WriteLine($"DFS - Finalização (f): [{string.Join(", ", f)}]");
-
-            // Agora usando o nome corrigido da classe
-            var (distBF, predBF, ciclo) = BellmanFordAlgorithm.Executar(grafoTeste, 0);
-            Console.WriteLine($"Bellman-Ford - Distâncias: [{string.Join(", ", distBF)}]");
-            Console.WriteLine($"Ciclo negativo? {ciclo}");
-
-            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
-            Console.ReadKey();
-            Console.Clear();
+            string caminho = "";
+            switch (escolha)
+            {
+                case "1": caminho = @"..\..\..\Grafos\1_grafo_denso.txt"; break;
+                case "2": caminho = @"..\..\..\Grafos/2_grafo_esparso.txt"; break;
+                case "3": caminho = @"..\..\..\Grafos/3_grafo_direcionado.txt"; break;
+                case "4": caminho = @"..\..\..\Grafos/4_grafo_nao_direcionado.txt"; break;
+                case "5": caminho = @"..\..\..\Grafos/5_grafo_com_ciclos.txt"; break;
+                case "6": caminho = @"..\..\..\Grafos/6_grafo_sem_ciclos.txt"; break;
+                case "7": caminho = @"..\..\..\Grafos/7_grafo_pesos_negativos.txt"; break;
+                case "8": caminho = @"..\..\..\Grafos/8_grafo_para_dijkstra.txt"; break;
+                case "9": caminho = @"..\..\..\Grafos/9_grafo_desconexo.txt"; break;
+                case "10": caminho = @"..\..\..\Grafos/10_grafo_para_bfs_dfs.txt"; break;
+                case "11": caminho = @"..\..\..\Grafos/11_grafo_grande_denso.txt"; break;
+                case "12": caminho = @"..\..\..\Grafos/12_grafo_direcionado_com_ciclo.txt"; break;
+                case "13": caminho = @"..\..\..\Grafos/teste1_entrada.txt"; break;
+                case "14": caminho = @"..\..\..\Grafos/teste2_entrada.txt"; break;
+                case "15": caminho = @"..\..\..\Grafos/teste3_entrada.txt"; break;
+                case "16":
+                    Console.Write("Digite o caminho completo do arquivo: ");
+                    string? digitado = Console.ReadLine();
+                    caminho = string.IsNullOrWhiteSpace(digitado) ? @"..\..\..\Grafos/matrizadjacencia.txt" : digitado;
+                    break;
+                default:
+                    Console.WriteLine("Opção inválida. Usando padrão 'Grafos/1_grafo_denso.txt'.");
+                    caminho = @"..\..\..\Grafos/1_grafo_denso.txt";
+                    break;
+            }
+            return caminho;
         }
 
-        static void TestarConectividadeCiclosComponentes()
+        // ============================================================
+        // Opção 1 – Matriz de Adjacência 
+        // ============================================================
+        static void ExecutarMatriz()
         {
-            Console.WriteLine("=== TESTE DE CONECTIVIDADE, CICLOS E COMPONENTES ===");
-
-            // Grafo de teste com 6 vértices (não-direcionado) – já usado na opção 3
-            var grafo = new GrafoListaAdjacencia(6, direcionado: false);
-            grafo.AdicionarAresta(0, 1);
-            grafo.AdicionarAresta(0, 2);
-            grafo.AdicionarAresta(1, 3);
-            grafo.AdicionarAresta(2, 4);
-            grafo.AdicionarAresta(3, 5);
-            grafo.AdicionarAresta(4, 5);
-
-            Console.WriteLine("\nGrafo de teste (6 vértices):");
-            grafo.Imprimir();
-
-            // -------------------- CONECTIVIDADE (BFS) --------------------
-            var (dist, _) = BFS.Executar(grafo, 0);
-            bool conectado = true;
-            for (int i = 0; i < dist.Length; i++)
-                if (dist[i] == -1) { conectado = false; break; }
-
-            Console.WriteLine($"\n[1] Conectividade a partir do vértice 0: {(conectado ? "SIM (grafo é conexo)" : "NÃO (há vértices inalcançáveis)")}");
-
-            // -------------------- CICLOS (DFS) --------------------
-            // Para detectar ciclos, executamos um DFS e verificamos se há aresta de retorno.
-            // Vamos usar o método DFS existente, mas ele não retorna ciclos explicitamente.
-            // Podemos fazer uma função simples que usa cores e detecta back edges.
-            bool temCiclo = false;
-            int V = grafo.Vertices;
-            int[] cor = new int[V]; // 0=branco, 1=cinza, 2=preto
-
-            void DfsCiclo(int u)
+            string caminho = EscolherArquivo();
+            try
             {
-                cor[u] = 1; // cinza
-                foreach (var (v, _) in grafo.ObterVizinhos(u))
-                {
-                    if (cor[v] == 1) // vizinho cinza -> aresta de retorno -> ciclo
-                    {
-                        temCiclo = true;
-                    }
-                    else if (cor[v] == 0)
-                    {
-                        DfsCiclo(v);
-                    }
-                }
-                cor[u] = 2; // preto
+                var grafo = GrafoMatrizAdjacencia.LerDoArquivo(caminho);
+                AnalisadorMatriz.Analisar(grafo);
             }
-
-            for (int i = 0; i < V; i++)
-                if (cor[i] == 0)
-                    DfsCiclo(i);
-
-            Console.WriteLine($"[2] Ciclos no grafo: {(temCiclo ? "SIM (detectado)" : "NÃO")}");
-
-            // -------------------- COMPONENTES CONEXAS (BFS) --------------------
-            bool[] visitado = new bool[V];
-            int componentes = 0;
-            for (int i = 0; i < V; i++)
+            catch (Exception ex)
             {
-                if (!visitado[i])
-                {
-                    componentes++;
-                    // Executa BFS a partir de i para marcar toda a componente
-                    var fila = new Queue<int>();
-                    visitado[i] = true;
-                    fila.Enqueue(i);
-                    while (fila.Count > 0)
-                    {
-                        int u = fila.Dequeue();
-                        foreach (var (v, _) in grafo.ObterVizinhos(u))
-                        {
-                            if (!visitado[v])
-                            {
-                                visitado[v] = true;
-                                fila.Enqueue(v);
-                            }
-                        }
-                    }
-                }
+                Console.WriteLine($"Erro: {ex.Message}");
             }
-            Console.WriteLine($"[3] Número de componentes conexas: {componentes}");
-
-            // -------------------- TESTE COM MAPA DE CIDADES (opcional) --------------------
-            Console.WriteLine("\n--- Teste com o Mapa de Cidades ---");
-            var grafoCidades = new GrafoListaAdjacencia(10, direcionado: false);
-            grafoCidades.AdicionarAresta(0, 1, 400);
-            grafoCidades.AdicionarAresta(0, 2, 580);
-            grafoCidades.AdicionarAresta(0, 5, 400);
-            grafoCidades.AdicionarAresta(1, 2, 430);
-            grafoCidades.AdicionarAresta(2, 3, 715);
-            grafoCidades.AdicionarAresta(3, 4, 200);
-            grafoCidades.AdicionarAresta(4, 5, 1100);
-            grafoCidades.AdicionarAresta(5, 6, 730);
-            grafoCidades.AdicionarAresta(6, 7, 3000);
-            grafoCidades.AdicionarAresta(7, 8, 320);
-            grafoCidades.AdicionarAresta(7, 9, 1200);
-            grafoCidades.AdicionarAresta(8, 9, 750);
-            grafoCidades.AdicionarAresta(1, 7, 1600);
-            grafoCidades.AdicionarAresta(3, 7, 1450);
-            grafoCidades.AdicionarAresta(0, 6, 1130);
-
-            var (distCid, _) = BFS.Executar(grafoCidades, 0);
-            bool conectadoCid = true;
-            for (int i = 0; i < distCid.Length; i++)
-                if (distCid[i] == -1) { conectadoCid = false; break; }
-            Console.WriteLine($"Mapa de cidades é conexo? {(conectadoCid ? "SIM" : "NÃO")}");
-
-            // Detectar ciclos no mapa (usando o mesmo método DFS)
-            int Vc = grafoCidades.Vertices;
-            int[] corC = new int[Vc];
-            bool cicloCid = false;
-            void DfsCicloCid(int u)
+        }
+        // ============================================================
+        // Opção 2 – Lista de Adjacência
+        // ============================================================
+        static void ExecutarLista()
+        {
+            string caminho = EscolherArquivo();
+            try
             {
-                corC[u] = 1;
-                foreach (var (v, _) in grafoCidades.ObterVizinhos(u))
-                {
-                    if (corC[v] == 1) cicloCid = true;
-                    else if (corC[v] == 0) DfsCicloCid(v);
-                }
-                corC[u] = 2;
+                var grafo = GrafoListaAdjacencia.LerDoArquivo(caminho);
+                AnalisadorLista.Analisar(grafo);
             }
-            for (int i = 0; i < Vc; i++)
-                if (corC[i] == 0) DfsCicloCid(i);
-            Console.WriteLine($"Mapa de cidades possui ciclos? {(cicloCid ? "SIM" : "NÃO")}");
-
-            // Componentes do mapa
-            bool[] visitadoC = new bool[Vc];
-            int compC = 0;
-            for (int i = 0; i < Vc; i++)
+            catch (Exception ex)
             {
-                if (!visitadoC[i])
-                {
-                    compC++;
-                    var fila = new Queue<int>();
-                    visitadoC[i] = true;
-                    fila.Enqueue(i);
-                    while (fila.Count > 0)
-                    {
-                        int u = fila.Dequeue();
-                        foreach (var (v, _) in grafoCidades.ObterVizinhos(u))
-                        {
-                            if (!visitadoC[v])
-                            {
-                                visitadoC[v] = true;
-                                fila.Enqueue(v);
-                            }
-                        }
-                    }
-                }
+                Console.WriteLine($"Erro: {ex.Message}");
             }
-            Console.WriteLine($"Número de componentes conexas no mapa: {compC}");
+        }
+        // ============================================================
+        // Opção 3 – BFS
+        // ============================================================
+        static void ExecutarBFS()
+        {
+            string caminho = EscolherArquivo();
+            try
+            {
+                var grafo = GrafoListaAdjacencia.LerDoArquivo(caminho);
+                Console.Write("Digite o vértice de origem (0 a {0}): ", grafo.Vertices - 1);
+                string? entrada = Console.ReadLine();
+                if (!int.TryParse(entrada, out int origem) || origem < 0 || origem >= grafo.Vertices)
+                {
+                    Console.WriteLine("Origem inválida. Usando 0.");
+                    origem = 0;
+                }
 
-            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
-            Console.ReadKey();
-            Console.Clear();
+                var (distancias, predecessores) = BFS.Executar(grafo, origem);
+                AnalisadorBFS.Analisar(grafo, origem, distancias, predecessores);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro: {ex.Message}");
+            }
+        }
+        // ============================================================
+        // Opção 4 – DFS
+        // ============================================================
+        static void ExecutarDFS()
+        {
+            string caminho = EscolherArquivo();
+            try
+            {
+                var grafo = GrafoListaAdjacencia.LerDoArquivo(caminho);
+                var (d, f, pred, arestas) = DFS.Executar(grafo);
+                AnalisadorDFS.Analisar(grafo, d, f, pred, arestas);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro: {ex.Message}");
+            }
+        }
+        // ============================================================
+        // Opção 5 – Dijkstra
+        // ============================================================
+        static void ExecutarDijkstra()
+        {
+            string caminho = EscolherArquivo();
+            try
+            {
+                var grafo = GrafoListaAdjacencia.LerDoArquivo(caminho);
+                Console.Write("Digite o vértice de origem (0 a {0}): ", grafo.Vertices - 1);
+                string? entrada = Console.ReadLine();
+                if (!int.TryParse(entrada, out int origem) || origem < 0 || origem >= grafo.Vertices)
+                {
+                    Console.WriteLine("Origem inválida. Usando 0.");
+                    origem = 0;
+                }
+
+                // Usando variável intermediária para evitar CS8130
+                var resultado = ProjetoGrafosGrupo5.Dijkstra.AlgoritmoDijkstra.Executar(grafo, origem);
+                int[] distancias = resultado.distancias;
+                int[] predecessores = resultado.predecessores;
+
+                AnalisadorDijkstra.Analisar(grafo, origem, distancias, predecessores);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro: {ex.Message}");
+            }
         }
 
-        static void TestarDesempenhoDijkstra()
-        {
-            Console.WriteLine("\n=== COMPARAÇÃO DE DESEMPENHO: HEAP vs. VETOR ===");
-            Console.WriteLine("Gerando grafos conexos e medindo tempos (média de 5 execuções)...\n");
-
-            // Cenários maiores para tempos mais significativos
-            var cenarios = new (int V, int A)[]
-            {
-                (500, 5000),    // esparso
-                (1000, 10000),  // esparso
-                (2000, 40000),  // médio
-                (5000, 50000),  // esparso grande
-                (500, 50000)    // denso (A próximo de V²)
-            };
-
-            Console.WriteLine("| Vértices (V) | Arestas (A) | Heap (ms) | Vetor (ms) | Ganho do Heap |");
-            Console.WriteLine("|--------------|-------------|-----------|------------|---------------|");
-
-            foreach (var (V, A) in cenarios)
-            {
-                // Gera um grafo conexo
-                var grafo = GerarGrafoConexo(V, A);
-
-                // AQUECIMENTO: executa uma vez sem medir (para o JIT compilar e cachear)
-                DijkstraHeap.Executar(grafo, 0);
-                DijkstraVetor.Executar(grafo, 0);
-
-                // Medições repetidas
-                int repeticoes = 5;
-                double somaHeap = 0, somaVetor = 0;
-
-                for (int i = 0; i < repeticoes; i++)
-                {
-                    // Heap
-                    var swHeap = System.Diagnostics.Stopwatch.StartNew();
-                    DijkstraHeap.Executar(grafo, 0);
-                    swHeap.Stop();
-                    somaHeap += swHeap.Elapsed.TotalMilliseconds;
-
-                    // Vetor
-                    var swVetor = System.Diagnostics.Stopwatch.StartNew();
-                    DijkstraVetor.Executar(grafo, 0);
-                    swVetor.Stop();
-                    somaVetor += swVetor.Elapsed.TotalMilliseconds;
-                }
-
-                double mediaHeap = somaHeap / repeticoes;
-                double mediaVetor = somaVetor / repeticoes;
-                double ganho = (mediaVetor - mediaHeap) / mediaVetor * 100; // % mais rápido
-
-                Console.WriteLine($"| {V,12} | {A,11} | {mediaHeap,9:F2} | {mediaVetor,10:F2} | {ganho,13:F1}% |");
-            }
-
-            Console.WriteLine("\nObs: Média de 5 execuções. Ganho positivo = Heap é mais rápido.");
-
-            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
-            Console.ReadKey();
-            Console.Clear();
-        }
-
-        /// <summary>
-        /// Gera um grafo NÃO-direcionado e CONEXO com V vértices e A arestas.
-        /// Garante conectividade criando uma árvore geradora mínima (arestas sequenciais),
-        /// depois adiciona arestas extras aleatórias.
-        /// </summary>
-        static GrafoListaAdjacencia GerarGrafoConexo(int V, int A)
-        {
-            if (A < V - 1) A = V - 1; // garante arestas mínimas para conectividade
-            var rand = new Random();
-            var grafo = new GrafoListaAdjacencia(V, direcionado: false);
-
-            // 1. Cria uma árvore geradora (conexão sequencial) - garante conectividade
-            for (int i = 1; i < V; i++)
-            {
-                int peso = rand.Next(1, 101);
-                grafo.AdicionarAresta(i - 1, i, peso);
-            }
-
-            // 2. Adiciona arestas extras aleatórias (sem criar laços)
-            int arestasAtuais = V - 1;
-            int tentativas = 0;
-            while (arestasAtuais < A && tentativas < A * 10)
-            {
-                int u = rand.Next(V);
-                int v = rand.Next(V);
-                if (u != v && !grafo.ExisteAresta(u, v))
-                {
-                    int peso = rand.Next(1, 101);
-                    grafo.AdicionarAresta(u, v, peso);
-                    arestasAtuais++;
-                }
-                tentativas++;
-            }
-
-            return grafo;
-        }
     }
 }
