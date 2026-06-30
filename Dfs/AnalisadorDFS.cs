@@ -57,6 +57,9 @@ namespace ProjetoGrafosGrupo5.Dfs
             Console.WriteLine($"\nCICLOS: {(temCiclo ? "SIM (detectado)" : "NÃO")}");
 
             Console.WriteLine("\n" + new string('=', 50));
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

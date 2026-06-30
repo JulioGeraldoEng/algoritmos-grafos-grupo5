@@ -126,6 +126,9 @@ namespace ProjetoGrafosGrupo5.Grafos
                 Console.WriteLine("  ✅ Use LISTA DE ADJACÊNCIA: grafos esparsos, economiza memória.");
 
             Console.WriteLine("\n" + new string('=', 50));
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

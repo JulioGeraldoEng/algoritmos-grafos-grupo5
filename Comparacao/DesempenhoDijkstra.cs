@@ -56,6 +56,9 @@ namespace ProjetoGrafosGrupo5.Comparacao
             }
 
             Console.WriteLine("\nObs: Média de 5 execuções. Ganho positivo = Heap é mais rápido.");
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         private static GrafoListaAdjacencia GerarGrafoConexo(int V, int A)
