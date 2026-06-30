@@ -69,7 +69,21 @@ namespace ProjetoGrafosGrupo5.Dijkstra
                 Console.WriteLine("\nTodos os vértices são alcançáveis a partir da origem.");
 
             Console.WriteLine("\n" + new string('=', 50));
-            
+
+            // Vértices em ordem crescente de distância (requisito do desafio)
+            Console.WriteLine("\nVÉRTICES EM ORDEM CRESCENTE DE DISTÂNCIA:");
+
+            var ordem = Enumerable.Range(0, V)
+                .OrderBy(v => distancias[v]);
+
+            foreach (int v in ordem)
+            {
+                string distStr = (distancias[v] == int.MaxValue)
+                    ? "∞"
+                    : distancias[v].ToString();
+
+                Console.WriteLine($"  Vértice {v} -> Distância: {distStr}");
+            }
         }
     }
 }
