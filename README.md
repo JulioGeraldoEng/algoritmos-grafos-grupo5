@@ -12,9 +12,10 @@ Este projeto foi desenvolvido para a disciplina Análise e Complexidade de Algor
 
 ---
 
-📦 Pré‑requisitos
+## 📦 Pré‑requisitos
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) instalado.
+
 
 Para verificar:
 ```bash
@@ -25,7 +26,6 @@ dotnet --version
 
 ## 📥 Como baixar e executar
 
-```
 1. Clone o repositório:
 ```bash
 git clone https://github.com/JulioGeraldoEng/algoritmos-grafos-grupo5.git
