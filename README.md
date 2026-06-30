@@ -1,7 +1,7 @@
 ```
 # Projeto Grafos – Análise e Complexidade de Algoritmos
 
-Este projeto foi desenvolvido para a disciplina Análise e Complexidade de Algoritmos e implementa,<br> em C# (.NET 8), os principais algoritmos sobre grafos: representações (matriz e lista de adjacência), BFS, DFS, Dijkstra (com heap e com vetor), além de um mapa de cidades brasileiras para demonstração prática e uma comparação de desempenho entre as versões com heap e vetor.
+Este projeto foi desenvolvido para a disciplina Análise e Complexidade de Algoritmos e implementa, em C# (.NET 8), os principais algoritmos sobre grafos: representações (matriz e lista de adjacência), BFS, DFS, Dijkstra (com heap e com vetor), além de um mapa de cidades brasileiras para demonstração prática e uma comparação de desempenho entre as versões com heap e vetor.
 
 ---
 
@@ -12,19 +12,20 @@ Este projeto foi desenvolvido para a disciplina Análise e Complexidade de Algor
 
 ---
 
-## 📦 Pré‑requisitos
+📦 Pré‑requisitos
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) instalado.
 
 Para verificar:
-bash
+```bash
 dotnet --version
-
+```
 
 ---
 
 ## 📥 Como baixar e executar
 
+```
 1. Clone o repositório:
 ```bash
 git clone https://github.com/JulioGeraldoEng/algoritmos-grafos-grupo5.git
@@ -153,12 +154,5 @@ Este projeto foi desenvolvido para fins acadêmicos.
 - Júlio Cesar de Oliveira Geraldo – BI300399X
 - Lucas Alves De Souza – BI3003698
 - Vitor da Silva Campos – BI3005577
-
----
-
-## 🔗 Link do repositório
-
-[https://github.com/JulioGeraldoEng/algoritmos-grafos-grupo5](https://github.com/JulioGeraldoEng/algoritmos-grafos-grupo5)
-```
 
 ---
