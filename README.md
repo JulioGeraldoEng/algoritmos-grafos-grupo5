@@ -1,7 +1,7 @@
 ```
 # Projeto Grafos – Análise e Complexidade de Algoritmos
 
-Este projeto foi desenvolvido para a disciplina Análise e Complexidade de Algoritmos e implementa, em C# (.NET 8), os principais algoritmos sobre grafos: representações (matriz e lista de adjacência), BFS, DFS, Dijkstra (com heap e com vetor), além de um mapa de cidades brasileiras para demonstração prática e uma comparação de desempenho entre as versões com heap e vetor.
+Este projeto foi desenvolvido para a disciplina Análise e Complexidade de Algoritmos e implementa,<br> em C# (.NET 8), os principais algoritmos sobre grafos: representações (matriz e lista de adjacência), BFS, DFS, Dijkstra (com heap e com vetor), além de um mapa de cidades brasileiras para demonstração prática e uma comparação de desempenho entre as versões com heap e vetor.
 
 ---
 
@@ -17,9 +17,9 @@ Este projeto foi desenvolvido para a disciplina Análise e Complexidade de Algor
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) instalado.
 
 Para verificar:
-```bash
+bash
 dotnet --version
-```
+
 
 ---
 
@@ -32,7 +32,7 @@ git clone https://github.com/JulioGeraldoEng/algoritmos-grafos-grupo5.git
 
 2. Entre na pasta:
 ```bash
-cd algoritmos-grafos-grupo5
+cd algoritmos-grafos-grupo5/ProjetoGrafos
 ```
 
 3. Execute o programa:
