@@ -1,9 +1,0 @@
-Exemplos de caminhos mínimos encontrados:
-
-São Paulo (0) → Fortaleza (9): 0 → 1 → 7 → 8 → 9, distância total = 400 + 1600 + 320 + 750 = 3070 km.
-
-São Paulo (0) → Porto Alegre (6): 0 → 6, distância total = 1130 km.
-
-São Paulo (0) → Brasília (3): 0 → 2 → 3, distância total = 580 + 715 = 1295 km.
-
-Os resultados obtidos são coerentes com as distâncias reais entre as capitais, validando a correta implementação do algoritmo.

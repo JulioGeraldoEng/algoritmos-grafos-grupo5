@@ -1,0 +1,13 @@
+📁 Lista de arquivos .txt para a pasta Grafos/
+1. 1_grafo_denso.txt (não direcionado, 10 vértices, muitas arestas)
+2. 2_grafo_esparso.txt (não direcionado, 10 vértices, poucas arestas)
+3. 3_grafo_direcionado.txt (direcionado, com pesos)
+4. 4_grafo_nao_direcionado.txt (não direcionado, pesos 1)
+5. 5_grafo_com_ciclos.txt (não direcionado, com vários ciclos)
+6. 6_grafo_sem_ciclos.txt (árvore, sem ciclos)
+7. 7_grafo_pesos_negativos.txt (direcionado, com pesos negativos para Bellman-Ford)
+8. 8_grafo_para_dijkstra.txt (não direcionado, pesos positivos)
+9. 9_grafo_desconexo.txt (não direcionado, duas componentes)
+10. 10_grafo_para_bfs_dfs.txt (pequeno, não direcionado)
+11. 11_grafo_grande_denso.txt (20 vértices, não direcionado, denso)
+12. 12_grafo_direcionado_com_ciclo.txt (direcionado com ciclo)

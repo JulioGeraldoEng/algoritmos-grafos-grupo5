@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "PFyW0406Um4=",
+  "dgSpecHash": "O63COVZGRaw=",
   "success": true,
-  "projectFilePath": "E:\\IFSP\\5modulo\\ANALISE E COMPLEXIDADE DE ALGORITMOS\\ProjetoGrafos\\ProjetoGrafos.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "E:\\IFSP\\5modulo\\ANALISE E COMPLEXIDADE DE ALGORITMOS\\ProjetoGrafos\\ProjetoGrafosGrupo5.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\julio\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.23\\microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
+    "C:\\Users\\julio\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.23\\microsoft.windowsdesktop.app.ref.8.0.23.nupkg.sha512",
+    "C:\\Users\\julio\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.23\\microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512",
+    "C:\\Users\\julio\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.23\\microsoft.netcore.app.host.win-x64.8.0.23.nupkg.sha512"
+  ],
   "logs": []
 }

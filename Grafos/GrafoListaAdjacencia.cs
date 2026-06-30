@@ -1,13 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
-namespace ProjetoGrafos.Grafos
+namespace ProjetoGrafosGrupo5.Grafos
 {
-    
-    /// Grafo representado por LISTA DE ADJACÊNCIA.
-    /// Espaço: O(V + A). Consulta de aresta: O(grau(v)). Listagem: O(grau(v)).
-    /// Ideal para grafos esparsos.
-    /// 
     public class GrafoListaAdjacencia
     {
         private List<(int destino, int peso)>[] adjacencias;
@@ -51,7 +47,7 @@ namespace ProjetoGrafos.Grafos
             return adjacencias[vertice];
         }
 
-        public void Imprimir()
+        public void ImprimirLista()
         {
             for (int i = 0; i < Vertices; i++)
             {
@@ -60,6 +56,42 @@ namespace ProjetoGrafos.Grafos
                     Console.Write($"->({dest},{peso}) ");
                 Console.WriteLine();
             }
+        }
+
+        public static GrafoListaAdjacencia LerDoArquivo(string caminho)
+        {
+            if (!File.Exists(caminho))
+                throw new FileNotFoundException($"Arquivo não encontrado: {caminho}");
+
+            string[] linhas = File.ReadAllLines(caminho);
+            if (linhas.Length < 2)
+                throw new InvalidDataException("Arquivo vazio ou formato inválido.");
+
+            string[] primeira = linhas[0].Split();
+            if (primeira.Length < 2)
+                throw new InvalidDataException("Primeira linha deve conter: V Direcionado (0 ou 1)");
+
+            int V = int.Parse(primeira[0]);
+            bool direcionado = int.Parse(primeira[1]) == 1;
+
+            var grafo = new GrafoListaAdjacencia(V, direcionado);
+
+            for (int i = 1; i < linhas.Length; i++)
+            {
+                string linha = linhas[i].Trim();
+                if (string.IsNullOrEmpty(linha)) continue;
+                string[] partes = linha.Split();
+                if (partes.Length < 3)
+                    throw new InvalidDataException($"Linha {i+1} inválida: esperado 'origem destino peso'");
+
+                int origem = int.Parse(partes[0]);
+                int destino = int.Parse(partes[1]);
+                int peso = int.Parse(partes[2]);
+
+                grafo.AdicionarAresta(origem, destino, peso);
+            }
+
+            return grafo;
         }
     }
 }

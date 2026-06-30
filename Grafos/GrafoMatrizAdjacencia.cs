@@ -1,13 +1,8 @@
 using System;
+using System.IO;
 
-namespace ProjetoGrafos.Grafos
+namespace ProjetoGrafosGrupo5.Grafos
 {
-    
-    /// Grafo representado por MATRIZ DE ADJACÊNCIA.
-    /// Complexidade de espaço: O(V²).
-    /// Consulta de aresta: O(1). Listagem de vizinhos: O(V).
-    /// Ideal para grafos densos.
-    /// 
     public class GrafoMatrizAdjacencia
     {
         private int[,] matriz;
@@ -51,7 +46,7 @@ namespace ProjetoGrafos.Grafos
             return vizinhos;
         }
 
-        public void Imprimir()
+        public void ImprimirMatriz()
         {
             for (int i = 0; i < Vertices; i++)
             {
@@ -59,6 +54,42 @@ namespace ProjetoGrafos.Grafos
                     Console.Write($"{matriz[i, j],3} ");
                 Console.WriteLine();
             }
+        }
+
+        public static GrafoMatrizAdjacencia LerDoArquivo(string caminho)
+        {
+            if (!File.Exists(caminho))
+                throw new FileNotFoundException($"Arquivo não encontrado: {caminho}");
+
+            string[] linhas = File.ReadAllLines(caminho);
+            if (linhas.Length < 2)
+                throw new InvalidDataException("Arquivo vazio ou formato inválido.");
+
+            string[] primeira = linhas[0].Split();
+            if (primeira.Length < 2)
+                throw new InvalidDataException("Primeira linha deve conter: V Direcionado (0 ou 1)");
+
+            int V = int.Parse(primeira[0]);
+            bool direcionado = int.Parse(primeira[1]) == 1;
+
+            var grafo = new GrafoMatrizAdjacencia(V, direcionado);
+
+            for (int i = 1; i < linhas.Length; i++)
+            {
+                string linha = linhas[i].Trim();
+                if (string.IsNullOrEmpty(linha)) continue;
+                string[] partes = linha.Split();
+                if (partes.Length < 3)
+                    throw new InvalidDataException($"Linha {i+1} inválida: esperado 'origem destino peso'");
+
+                int origem = int.Parse(partes[0]);
+                int destino = int.Parse(partes[1]);
+                int peso = int.Parse(partes[2]);
+
+                grafo.AdicionarAresta(origem, destino, peso);
+            }
+
+            return grafo;
         }
     }
 }
