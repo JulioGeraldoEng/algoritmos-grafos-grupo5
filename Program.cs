@@ -5,9 +5,12 @@ using ProjetoGrafosGrupo5.Dfs;
 using ProjetoGrafosGrupo5.Dijkstra;
 using ProjetoGrafosGrupo5.MapaCidades;
 using ProjetoGrafosGrupo5.Comparacao;
+using System.Diagnostics;
 
 namespace ProjetoGrafosGrupo5
 {
+    //..\..\..\Grafos\bfs_dfs\10000.txt
+    //..\..\..\Grafos\dijkstra\10000.txt
     class Program
     {
         static void Main(string[] args)
@@ -127,8 +130,15 @@ namespace ProjetoGrafosGrupo5
             string caminho = EscolherArquivo();
             try
             {
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 var grafo = GrafoMatrizAdjacencia.LerDoArquivo(caminho);
+                sw.Stop();
                 AnalisadorMatriz.Analisar(grafo);
+                Console.WriteLine("Tempo de excução: " + sw.Elapsed);
+                Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+                Console.ReadKey();
+                Console.Clear();
             }
             catch (Exception ex)
             {
@@ -143,8 +153,15 @@ namespace ProjetoGrafosGrupo5
             string caminho = EscolherArquivo();
             try
             {
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 var grafo = GrafoListaAdjacencia.LerDoArquivo(caminho);
+                sw.Stop();
                 AnalisadorLista.Analisar(grafo);
+                Console.WriteLine("Tempo de excução: " + sw.Elapsed);
+                Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+                Console.ReadKey();
+                Console.Clear();
             }
             catch (Exception ex)
             {
@@ -168,8 +185,17 @@ namespace ProjetoGrafosGrupo5
                     origem = 0;
                 }
 
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 var (distancias, predecessores) = BFS.Executar(grafo, origem);
+                sw.Stop();
                 AnalisadorBFS.Analisar(grafo, origem, distancias, predecessores);
+                Console.WriteLine("Tempo de excução: " + sw.Elapsed);
+
+                Console.WriteLine("\n" + new string('=', 50));
+                Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+                Console.ReadKey();
+                Console.Clear();
             }
             catch (Exception ex)
             {
@@ -184,9 +210,16 @@ namespace ProjetoGrafosGrupo5
             string caminho = EscolherArquivo();
             try
             {
+                Stopwatch sw = new Stopwatch();
                 var grafo = GrafoListaAdjacencia.LerDoArquivo(caminho);
+                sw.Start();
                 var (d, f, pred, arestas) = DFS.Executar(grafo);
+                sw.Stop();
                 AnalisadorDFS.Analisar(grafo, d, f, pred, arestas);
+                Console.WriteLine("Tempo de excução: " + sw.Elapsed);
+                Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+                Console.ReadKey();
+                Console.Clear();
             }
             catch (Exception ex)
             {
@@ -210,12 +243,19 @@ namespace ProjetoGrafosGrupo5
                     origem = 0;
                 }
 
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 // Usando variável intermediária para evitar CS8130
                 var resultado = ProjetoGrafosGrupo5.Dijkstra.AlgoritmoDijkstra.Executar(grafo, origem);
+                sw.Stop();
                 int[] distancias = resultado.distancias;
                 int[] predecessores = resultado.predecessores;
 
                 AnalisadorDijkstra.Analisar(grafo, origem, distancias, predecessores);
+                Console.WriteLine("Tempo de excução: " + sw.Elapsed);
+                Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+                Console.ReadKey();
+                Console.Clear();
             }
             catch (Exception ex)
             {

@@ -65,11 +65,6 @@ namespace ProjetoGrafosGrupo5.Bfs
                 Console.WriteLine($"\nVértices inalcançáveis: {string.Join(", ", inalcancaveis)}");
             else
                 Console.WriteLine("\nTodos os vértices são alcançáveis a partir da origem.");
-
-            Console.WriteLine("\n" + new string('=', 50));
-            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
-            Console.ReadKey();
-            Console.Clear();
         }
     }
 }
