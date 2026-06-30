@@ -23,7 +23,7 @@ Para verificar:
 ```bash
 dotnet --version
 ```
----
+## 📥 Como baixar e executar
 ---
 
 ## 📥 Como baixar e executar
