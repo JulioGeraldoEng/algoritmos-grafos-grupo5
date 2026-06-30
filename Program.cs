@@ -109,7 +109,7 @@ namespace ProjetoGrafosGrupo5
                 case "16":
                     Console.Write("Digite o caminho completo do arquivo: ");
                     string? digitado = Console.ReadLine();
-                    caminho = string.IsNullOrWhiteSpace(digitado) ? "..\..\..\Grafos/matrizadjacencia.txt" : digitado;
+                    caminho = string.IsNullOrWhiteSpace(digitado) ? @"..\..\..\Grafos/matrizadjacencia.txt" : digitado;
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Usando padrão 'Grafos/1_grafo_denso.txt'.");
