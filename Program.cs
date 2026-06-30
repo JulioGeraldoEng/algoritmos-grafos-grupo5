@@ -91,29 +91,29 @@ namespace ProjetoGrafosGrupo5
             string caminho = "";
             switch (escolha)
             {
-                case "1": caminho = "Grafos/1_grafo_denso.txt"; break;
-                case "2": caminho = "Grafos/2_grafo_esparso.txt"; break;
-                case "3": caminho = "Grafos/3_grafo_direcionado.txt"; break;
-                case "4": caminho = "Grafos/4_grafo_nao_direcionado.txt"; break;
-                case "5": caminho = "Grafos/5_grafo_com_ciclos.txt"; break;
-                case "6": caminho = "Grafos/6_grafo_sem_ciclos.txt"; break;
-                case "7": caminho = "Grafos/7_grafo_pesos_negativos.txt"; break;
-                case "8": caminho = "Grafos/8_grafo_para_dijkstra.txt"; break;
-                case "9": caminho = "Grafos/9_grafo_desconexo.txt"; break;
-                case "10": caminho = "Grafos/10_grafo_para_bfs_dfs.txt"; break;
-                case "11": caminho = "Grafos/11_grafo_grande_denso.txt"; break;
-                case "12": caminho = "Grafos/12_grafo_direcionado_com_ciclo.txt"; break;
-                case "13": caminho = "Grafos/teste1_entrada.txt"; break;
-                case "14": caminho = "Grafos/teste2_entrada.txt"; break;
-                case "15": caminho = "Grafos/teste3_entrada.txt"; break;
+                case "1": caminho = @"..\..\..\Grafos\1_grafo_denso.txt"; break;
+                case "2": caminho = @"..\..\..\Grafos/2_grafo_esparso.txt"; break;
+                case "3": caminho = @"..\..\..\Grafos/3_grafo_direcionado.txt"; break;
+                case "4": caminho = @"..\..\..\Grafos/4_grafo_nao_direcionado.txt"; break;
+                case "5": caminho = @"..\..\..\Grafos/5_grafo_com_ciclos.txt"; break;
+                case "6": caminho = @"..\..\..\Grafos/6_grafo_sem_ciclos.txt"; break;
+                case "7": caminho = @"..\..\..\Grafos/7_grafo_pesos_negativos.txt"; break;
+                case "8": caminho = @"..\..\..\Grafos/8_grafo_para_dijkstra.txt"; break;
+                case "9": caminho = @"..\..\..\Grafos/9_grafo_desconexo.txt"; break;
+                case "10": caminho = @"..\..\..\Grafos/10_grafo_para_bfs_dfs.txt"; break;
+                case "11": caminho = @"..\..\..\Grafos/11_grafo_grande_denso.txt"; break;
+                case "12": caminho = @"..\..\..\Grafos/12_grafo_direcionado_com_ciclo.txt"; break;
+                case "13": caminho = @"..\..\..\Grafos/teste1_entrada.txt"; break;
+                case "14": caminho = @"..\..\..\Grafos/teste2_entrada.txt"; break;
+                case "15": caminho = @"..\..\..\Grafos/teste3_entrada.txt"; break;
                 case "16":
                     Console.Write("Digite o caminho completo do arquivo: ");
                     string? digitado = Console.ReadLine();
-                    caminho = string.IsNullOrWhiteSpace(digitado) ? "Grafos/matrizadjacencia.txt" : digitado;
+                    caminho = string.IsNullOrWhiteSpace(digitado) ? "..\..\..\Grafos/matrizadjacencia.txt" : digitado;
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Usando padrão 'Grafos/1_grafo_denso.txt'.");
-                    caminho = "Grafos/1_grafo_denso.txt";
+                    caminho = @"..\..\..\Grafos/1_grafo_denso.txt";
                     break;
             }
             return caminho;
