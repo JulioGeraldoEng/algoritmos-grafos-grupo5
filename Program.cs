@@ -87,7 +87,8 @@ namespace ProjetoGrafosGrupo5
             Console.WriteLine("  13 - teste1_entrada.txt");
             Console.WriteLine("  14 - teste2_entrada.txt");
             Console.WriteLine("  15 - teste3_entrada.txt");
-            Console.WriteLine("  16 - Outro (digitar caminho)");
+            Console.WriteLine("  16 - cidades.txt");
+            Console.WriteLine("  17 - Outro (digitar caminho)");
             Console.Write("Escolha o número (1-16): ");
             string? escolha = Console.ReadLine();
 
@@ -109,7 +110,8 @@ namespace ProjetoGrafosGrupo5
                 case "13": caminho = @"..\..\..\Grafos/teste1_entrada.txt"; break;
                 case "14": caminho = @"..\..\..\Grafos/teste2_entrada.txt"; break;
                 case "15": caminho = @"..\..\..\Grafos/teste3_entrada.txt"; break;
-                case "16":
+                case "16": caminho = @"..\..\..\Grafos/cidades.txt"; break;
+                case "17":
                     Console.Write("Digite o caminho completo do arquivo: ");
                     string? digitado = Console.ReadLine();
                     caminho = string.IsNullOrWhiteSpace(digitado) ? @"..\..\..\Grafos/matrizadjacencia.txt" : digitado;
